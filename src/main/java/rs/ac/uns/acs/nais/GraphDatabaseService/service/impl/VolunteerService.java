@@ -6,20 +6,20 @@ import rs.ac.uns.acs.nais.GraphDatabaseService.model.Volunteer;
 import rs.ac.uns.acs.nais.GraphDatabaseService.repository.VolunteerRepository;
 import rs.ac.uns.acs.nais.GraphDatabaseService.service.IVounteerService;
 
+import java.util.List;
+
 @Service
 public class VolunteerService implements IVounteerService {
     @Autowired
     private VolunteerRepository volunteerRepository;
+
     @Override
-    public boolean deletePostFromVolunteer(Long volunteerId, Long postId) {
+    public List<Volunteer> getAllVolunteers() {
+        return volunteerRepository.findAll();
+    }
 
-        Volunteer volunteer = volunteerRepository.findById(volunteerId).orElseThrow(() -> new RuntimeException("Volunteer not found"));
-        if(volunteer!=null){
-            volunteer.deletePost(postId);
-            volunteerRepository.save(volunteer);
-            return true;
-        }
-        return false;
-
+    @Override
+    public Volunteer createVolunteer(Volunteer volunteer) {
+        return volunteerRepository.save(volunteer);
     }
 }
