@@ -32,20 +32,19 @@ public class PostController {
         Volunteer volunteer = postService.createPost(post);
         return ResponseEntity.status(HttpStatus.CREATED).body(volunteer);
     }
-
+    @PutMapping
+    public ResponseEntity<Post> updatePost(@RequestParam("id") Long id, @RequestParam("postContent") String content){
+        if(postService.updatePost(id, content)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
     @DeleteMapping
     public ResponseEntity<Post> deletePost(@RequestParam("postId") Long postId){
         if(postService.deletePost(postId)){
             return new ResponseEntity<>(HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-    @PutMapping
-    public ResponseEntity<Post> updatePost(@RequestParam("id") Long id, @RequestParam("postContent") String content){
-        if(postService.updatePost(id, content)){
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 

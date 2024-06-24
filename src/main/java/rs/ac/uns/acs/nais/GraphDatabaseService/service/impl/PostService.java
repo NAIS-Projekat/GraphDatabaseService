@@ -31,7 +31,7 @@ public class PostService implements IPostService {
     public Volunteer createPost(PostDTO postDto) {
           Volunteer volunteer = volunteerRepository.findByEmail(postDto.getVolunteerEmail());
           Post post = new Post();
-          post.setId(postDto.getId());
+          //post.setId(postDto.getId());
           post.setContent(postDto.getContent());
           post.setTimestamp(postDto.getTimestamp());
           volunteer.addNewPost(post);

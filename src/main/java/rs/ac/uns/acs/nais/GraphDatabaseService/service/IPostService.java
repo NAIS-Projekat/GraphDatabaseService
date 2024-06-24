@@ -11,5 +11,5 @@ public interface IPostService {
     Volunteer createPost(PostDTO post);
     List<Post> getAllPosts();
     boolean deletePost(Long postId);
-    public boolean updatePost(Long id, String postName);
+    boolean updatePost(Long id, String content);
 }

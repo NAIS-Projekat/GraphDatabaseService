@@ -1,5 +1,6 @@
 package rs.ac.uns.acs.nais.GraphDatabaseService.model;
 
+import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 
@@ -7,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Node
 public class Post {
-    @Id
+    @Id @GeneratedValue
     private Long id;
     private String content;
     private LocalDateTime timestamp;

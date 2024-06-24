@@ -8,6 +8,10 @@ public class PostDTO {
     private LocalDateTime timestamp;
     private String volunteerEmail;
 
+
+
+    public PostDTO() {
+    }
     public Long getId() {
         return id;
     }
@@ -15,10 +19,6 @@ public class PostDTO {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public PostDTO() {
-    }
-
     public String getContent() {
         return content;
     }
