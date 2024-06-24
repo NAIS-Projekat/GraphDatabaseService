@@ -19,6 +19,8 @@ public class Volunteer {
     @Relationship(value = "POSTS", direction = Relationship.Direction.OUTGOING)
     private List<Post> posts;
 
+    @Relationship(type = "VIEWS", direction = Relationship.Direction.OUTGOING)
+    private List<Views> views;
 
     public Volunteer() {
     }
@@ -80,5 +82,12 @@ public class Volunteer {
                 break;
             }
         }
+    }
+    public List<Views> getViews() {
+        return views;
+    }
+
+    public void setViews(List<Views> views) {
+        this.views = views;
     }
 }

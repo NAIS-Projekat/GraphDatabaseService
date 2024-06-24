@@ -61,4 +61,9 @@ public class VolunteerController {
         List<Message> messages = messageService.getAllMessages();
         return ResponseEntity.ok(messages);
     }
+    @PostMapping("view/{volunteerId}/{postId}")
+    public ResponseEntity<Void> addView(@PathVariable Long volunteerId, @PathVariable Long postId, @RequestParam boolean liked) {
+        volunteerService.addView(volunteerId, postId, liked);
+        return ResponseEntity.ok().build();
+    }
 }

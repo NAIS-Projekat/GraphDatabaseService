@@ -13,4 +13,5 @@ public interface IVounteerService {
     Volunteer createVolunteer(Volunteer volunteer);
     boolean updateVolunteer(VolunteerDTO volunteer);
     boolean deleteVolunteer(Long volunteerId);
+    void addView(Long volunteerId, Long postId, boolean liked);
 }
