@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import rs.ac.uns.acs.nais.GraphDatabaseService.dto.PopularVolunteerDTO;
 import rs.ac.uns.acs.nais.GraphDatabaseService.dto.PostDTO;
 import rs.ac.uns.acs.nais.GraphDatabaseService.dto.VolunteerDTO;
 import rs.ac.uns.acs.nais.GraphDatabaseService.model.*;
@@ -12,6 +13,7 @@ import rs.ac.uns.acs.nais.GraphDatabaseService.service.impl.PostService;
 import rs.ac.uns.acs.nais.GraphDatabaseService.service.impl.ViewsService;
 import rs.ac.uns.acs.nais.GraphDatabaseService.service.impl.VolunteerService;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -61,11 +63,11 @@ public class VolunteerController {
         List<Message> messages = messageService.getAllMessages();
         return ResponseEntity.ok(messages);
     }
-    @PostMapping("view/{volunteerId}/{postId}")
-    public ResponseEntity<Void> addView(@PathVariable Long volunteerId, @PathVariable Long postId, @RequestParam boolean liked) {
-        volunteerService.addView(volunteerId, postId, liked);
-        return ResponseEntity.ok().build();
-    }
+//    @PostMapping("view/{volunteerId}/{postId}")
+//    public ResponseEntity<Void> addView(@PathVariable Long volunteerId, @PathVariable Long postId, @RequestParam boolean liked) {
+//        volunteerService.addView(volunteerId, postId, liked);
+//        return ResponseEntity.ok().build();
+//    }
     @PutMapping("likes/{volunteerId}/{postId}")
     public ResponseEntity<Boolean> likePost(@PathVariable Long volunteerId, @PathVariable Long postId) {
         boolean success = viewsService.updateViewRelation(volunteerId, postId);
@@ -74,5 +76,64 @@ public class VolunteerController {
         } else {
             return ResponseEntity.status(500).body(false);
         }
+    }
+    @PutMapping("/follow/{followerId}/{followedId}")
+    public ResponseEntity<String> followVolunteer(
+                                    @PathVariable Long followerId,
+                                    @PathVariable Long followedId) {
+
+        boolean success = volunteerService.followVolunteer(followerId, followedId);
+
+        if (success) {
+            return ResponseEntity.ok("Successfully followed volunteer.");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to follow volunteer.");
+        }
+    }
+    @GetMapping("follows/{volunteerId}")
+    public ResponseEntity<List<Follows>> getAllFollows(
+            @PathVariable Long volunteerId) {
+
+        List<Follows> follows = volunteerService.getAllFollows(volunteerId);
+
+        return ResponseEntity.ok(follows);
+    }
+    @PutMapping("follows/mute/{followerId}/{followedId}")
+    public ResponseEntity<Boolean> updateMuteStatus(
+            @PathVariable Long followerId,
+            @PathVariable Long followedId,
+            @RequestParam boolean mute) {
+
+        boolean success = volunteerService.updateMuteStatus(followerId, followedId, mute);
+
+        if (success) {
+            return ResponseEntity.ok(true); // Successfully updated mute status
+        } else {
+            return ResponseEntity.notFound().build(); // Follow relationship not found
+        }
+    }
+    @DeleteMapping("unfollow/{followerId}/{followedId}")
+    public ResponseEntity<Boolean> unfollowVolunteer(
+            @PathVariable Long followerId,
+            @PathVariable Long followedId) {
+
+        boolean success = volunteerService.unfollowVolunteer(followerId, followedId);
+
+        if (success) {
+            return ResponseEntity.ok(true); // Successfully unfollowed
+        } else {
+            return ResponseEntity.notFound().build(); // Follow relationship not found
+        }
+    }
+
+    @GetMapping("recommendations/{volunteerId}")
+    public ResponseEntity<List<Volunteer>> getRecommendedVolunteers(@PathVariable Long volunteerId) {
+        List<Volunteer> recommendedVolunteers = volunteerService.getRecommendedVolunteers(volunteerId);
+        return ResponseEntity.ok(recommendedVolunteers);
+    }
+    @GetMapping("popular")
+    public ResponseEntity<Collection<PopularVolunteerDTO>> getMostPopularVolunteers() {
+        Collection<PopularVolunteerDTO> popularVolunteers = volunteerService.getMostPopularVolunteers();
+        return ResponseEntity.ok(popularVolunteers);
     }
 }

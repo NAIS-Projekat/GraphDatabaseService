@@ -4,9 +4,8 @@ package rs.ac.uns.acs.nais.GraphDatabaseService.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rs.ac.uns.acs.nais.GraphDatabaseService.dto.PostDTO;
-import rs.ac.uns.acs.nais.GraphDatabaseService.model.Customer;
-import rs.ac.uns.acs.nais.GraphDatabaseService.model.Product;
 import rs.ac.uns.acs.nais.GraphDatabaseService.model.Volunteer;
+import rs.ac.uns.acs.nais.GraphDatabaseService.model.Views;
 import rs.ac.uns.acs.nais.GraphDatabaseService.repository.PostRepository;
 import rs.ac.uns.acs.nais.GraphDatabaseService.repository.VolunteerRepository;
 import rs.ac.uns.acs.nais.GraphDatabaseService.service.IPostService;
@@ -81,6 +80,23 @@ public class PostService implements IPostService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void addView(Long volunteerId, Long postId, boolean liked) {
+        Volunteer volunteer = volunteerRepository.findById(volunteerId).orElseThrow();
+        Post post = postRepository.findById(postId).orElseThrow();
+        Views view = new Views();
+        view.setVolunteer(volunteer);
+        view.setLiked(liked);
+        post.getViews().add(view);
+        postRepository.save(post);
+    }
+
+    @Override
+    public List<Views> getAllViews(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow();
+        return post.getViews();
     }
 
 }

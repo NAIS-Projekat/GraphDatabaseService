@@ -14,6 +14,8 @@ public class Post {
     private Long id;
     private String content;
     private LocalDateTime timestamp;
+    @Relationship(type = "VIEWS", direction = Relationship.Direction.INCOMING)
+    private List<Views> views;
 
     public Post() {
     }
@@ -40,5 +42,13 @@ public class Post {
 
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public List<Views> getViews() {
+        return views;
+    }
+
+    public void setViews(List<Views> views) {
+        this.views = views;
     }
 }

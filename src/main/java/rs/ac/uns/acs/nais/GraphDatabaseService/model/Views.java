@@ -10,7 +10,7 @@ public class Views {
     private Long id;
 
     @TargetNode
-    private Post post;
+    private Volunteer volunteer;
     
     private boolean liked;
 
@@ -25,12 +25,12 @@ public class Views {
         this.id = id;
     }
 
-    public Post getPost() {
-        return post;
+    public Volunteer getVolunteer() {
+        return volunteer;
     }
 
-    public void setPost(Post post) {
-        this.post = post;
+    public void setVolunteer(Volunteer volunteer) {
+        this.volunteer = volunteer;
     }
 
     public boolean isLiked() {

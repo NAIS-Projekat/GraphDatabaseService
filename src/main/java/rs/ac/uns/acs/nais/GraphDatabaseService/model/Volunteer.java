@@ -1,5 +1,6 @@
 package rs.ac.uns.acs.nais.GraphDatabaseService.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
@@ -16,12 +17,13 @@ public class Volunteer {
     private String email;
     private boolean isActive;
     private boolean accountPrivacy;
+    @JsonIgnore
     @Relationship(value = "POSTS", direction = Relationship.Direction.OUTGOING)
     private List<Post> posts;
 
-    @Relationship(type = "VIEWS", direction = Relationship.Direction.OUTGOING)
-    private List<Views> views;
-
+    @JsonIgnore
+    @Relationship(value = "FOLLOWS", direction = Relationship.Direction.OUTGOING)
+    private List<Follows> follows;
     public Volunteer() {
     }
     public boolean isAccountPrivacy() {
@@ -83,11 +85,11 @@ public class Volunteer {
             }
         }
     }
-    public List<Views> getViews() {
-        return views;
+    public List<Follows> getFollows() {
+        return follows;
     }
 
-    public void setViews(List<Views> views) {
-        this.views = views;
+    public void setFollows(List<Follows> follows) {
+        this.follows = follows;
     }
 }
