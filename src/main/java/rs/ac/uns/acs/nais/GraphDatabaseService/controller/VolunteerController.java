@@ -6,12 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import rs.ac.uns.acs.nais.GraphDatabaseService.dto.PostDTO;
 import rs.ac.uns.acs.nais.GraphDatabaseService.dto.VolunteerDTO;
-import rs.ac.uns.acs.nais.GraphDatabaseService.model.Message;
-import rs.ac.uns.acs.nais.GraphDatabaseService.model.Post;
-import rs.ac.uns.acs.nais.GraphDatabaseService.model.Product;
-import rs.ac.uns.acs.nais.GraphDatabaseService.model.Volunteer;
+import rs.ac.uns.acs.nais.GraphDatabaseService.model.*;
 import rs.ac.uns.acs.nais.GraphDatabaseService.service.impl.MessageService;
 import rs.ac.uns.acs.nais.GraphDatabaseService.service.impl.PostService;
+import rs.ac.uns.acs.nais.GraphDatabaseService.service.impl.ViewsService;
 import rs.ac.uns.acs.nais.GraphDatabaseService.service.impl.VolunteerService;
 
 import java.util.List;
@@ -21,10 +19,12 @@ import java.util.List;
 public class VolunteerController {
     private final VolunteerService volunteerService;
     private final MessageService messageService;
+    private final ViewsService viewsService;
     @Autowired
-    public VolunteerController(VolunteerService volunteerService, MessageService messageService) {
+    public VolunteerController(VolunteerService volunteerService, MessageService messageService, ViewsService viewsService) {
         this.volunteerService = volunteerService;
         this.messageService = messageService;
+        this.viewsService = viewsService;
     }
 
     @GetMapping
@@ -65,5 +65,14 @@ public class VolunteerController {
     public ResponseEntity<Void> addView(@PathVariable Long volunteerId, @PathVariable Long postId, @RequestParam boolean liked) {
         volunteerService.addView(volunteerId, postId, liked);
         return ResponseEntity.ok().build();
+    }
+    @PutMapping("likes/{volunteerId}/{postId}")
+    public ResponseEntity<Boolean> likePost(@PathVariable Long volunteerId, @PathVariable Long postId) {
+        boolean success = viewsService.updateViewRelation(volunteerId, postId);
+        if (success) {
+            return ResponseEntity.ok(true);
+        } else {
+            return ResponseEntity.status(500).body(false);
+        }
     }
 }
