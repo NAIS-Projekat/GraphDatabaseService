@@ -123,7 +123,7 @@ public class VolunteerService implements IVounteerService {
                 MATCH (v:Volunteer)-[:POSTS]->(p:Post)<-[r:VIEWS]-(viewer:Volunteer)
                 WITH v, p, COUNT(r) AS numViews, SUM(CASE WHEN r.liked THEN 1 ELSE 0 END) AS numLikes
                 WITH v, COUNT(p) AS numPosts, SUM(numViews) AS totalViews, SUM(numLikes) AS totalLikes
-                RETURN v.name AS volunteerName, numPosts, totalViews, totalLikes
+                RETURN v.email AS volunteerEmail, numPosts, totalViews, totalLikes
                 ORDER BY totalViews DESC
                 LIMIT 5
                 """)
@@ -132,13 +132,16 @@ public class VolunteerService implements IVounteerService {
                 .map(record -> mapToDTO(record))
                 .collect(Collectors.toList());
     }
+    public List<Volunteer> getTopVolunteersByMessageSent() {
+        return volunteerRepository.getTopVolunteersByMessageSent();
+    }
 
     private PopularVolunteerDTO mapToDTO(Map<String, Object> record) {
-        String volunteerName = (String) record.get("volunteerName");
+        String volunteerEmail = (String) record.get("volunteerEmail");
         Long numPosts = ((Number) record.get("numPosts")).longValue();
         Long totalViews = ((Number) record.get("totalViews")).longValue();
         Long totalLikes = ((Number) record.get("totalLikes")).longValue();
-        return new PopularVolunteerDTO(volunteerName, numPosts, totalViews, totalLikes);
+        return new PopularVolunteerDTO(volunteerEmail, numPosts, totalViews, totalLikes);
     }
 
 }

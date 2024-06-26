@@ -1,7 +1,7 @@
 package rs.ac.uns.acs.nais.GraphDatabaseService.dto;
 
 public class PopularVolunteerDTO {
-    private String volunteerName;
+    private String volunteerEmail;
     private Long numPosts;
     private Long totalViews;
     private Long totalLikes;
@@ -9,20 +9,20 @@ public class PopularVolunteerDTO {
     public PopularVolunteerDTO(){
 
     }
-    public PopularVolunteerDTO(String volunteerName, Long numPosts, Long totalViews, Long totalLikes) {
-        this.volunteerName = volunteerName;
+    public PopularVolunteerDTO(String volunteerEmail, Long numPosts, Long totalViews, Long totalLikes) {
+        this.volunteerEmail = volunteerEmail;
         this.numPosts = numPosts;
         this.totalViews = totalViews;
         this.totalLikes = totalLikes;
     }
 
 
-    public String getVolunteerName() {
-        return volunteerName;
+    public String getvolunteerEmail() {
+        return volunteerEmail;
     }
 
-    public void setVolunteerName(String volunteerName) {
-        this.volunteerName = volunteerName;
+    public void setvolunteerEmail(String volunteerEmail) {
+        this.volunteerEmail = volunteerEmail;
     }
 
     public Long getNumPosts() {

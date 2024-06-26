@@ -22,4 +22,5 @@ public interface IVounteerService {
     boolean unfollowVolunteer(Long followerId, Long followedId);
     List<Volunteer> getRecommendedVolunteers(Long volunteerId);
     Collection<PopularVolunteerDTO> getMostPopularVolunteers();
+    List<Volunteer> getTopVolunteersByMessageSent();
 }

@@ -136,4 +136,9 @@ public class VolunteerController {
         Collection<PopularVolunteerDTO> popularVolunteers = volunteerService.getMostPopularVolunteers();
         return ResponseEntity.ok(popularVolunteers);
     }
+    @GetMapping("/topByMessages")
+    public ResponseEntity<List<Volunteer>> getTopVolunteersByMessageSent() {
+        List<Volunteer> topVolunteers = volunteerService.getTopVolunteersByMessageSent();
+        return ResponseEntity.ok(topVolunteers);
+    }
 }

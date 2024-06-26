@@ -33,12 +33,12 @@ public interface VolunteerRepository extends Neo4jRepository<Volunteer, Long> {
     LIMIT 10
     """)
     List<Volunteer> findRecommendedVolunteers(Long volunteerId);
-
-    //    @Query("MATCH (v:Volunteer)-[:POSTS]->(p:Post)<-[r:VIEWS]-(viewer:Volunteer)\n" +
-//            "WITH v, p, COUNT(r) AS numViews, SUM(CASE WHEN r.liked THEN 1 ELSE 0 END) AS numLikes\n" +
-//            "WITH v, COUNT(p) AS numPosts, SUM(numViews) AS totalViews, SUM(numLikes) AS totalLikes\n" +
-//            "RETURN v.name AS volunteerName, numPosts AS numPosts, totalViews AS totalViews, totalLikes AS totalLikes\n" +
-//            "ORDER BY totalViews DESC\n" +
-//            "LIMIT 5")
-//    List<PopularVolunteerDTO> getMostPopularVolunteers();
+    @Query("""
+    MATCH (v:Volunteer)-[:SENDS]->(m:Message)
+    WITH v, COUNT(m) AS numMess
+    RETURN v
+    ORDER BY numMess DESC
+    LIMIT 3
+    """)
+    List<Volunteer> getTopVolunteersByMessageSent();
 }
